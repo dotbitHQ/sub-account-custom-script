@@ -16,6 +16,7 @@
 mod macros;
 mod entry;
 mod error;
+mod schemas;
 
 use core::arch::asm;
 use ckb_std::{
