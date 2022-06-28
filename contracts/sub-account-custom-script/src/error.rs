@@ -8,6 +8,10 @@ pub enum Error {
     LengthNotEnough,
     Encoding,
     // Add customized errors here...
+    ActionNotSupported,
+    InvalidArgument,
+    InvalidSubAccountData,
+    InvalidProfit,
 }
 
 impl From<SysError> for Error {
@@ -22,4 +26,3 @@ impl From<SysError> for Error {
         }
     }
 }
-
