@@ -1,3 +1,6 @@
+MAINNET_RPC_URL := http://127.0.0.1:8114
+TESTNET_RPC_URL := http://127.0.0.1:8224
+
 # Compile developing version of contracts.
 dev:
 	capsule build
@@ -8,8 +11,8 @@ release:
 
 # Deploy contracts to the testnet of CKB.
 deploy-testnet:
-	API_URL=http://127.0.0.1:8224 capsule deploy --api $API_URL --env dev
+	API_URL=$(TESTNET_RPC_URL) capsule deploy --api $(TESTNET_RPC_URL) --env dev --fee 1 --address ckt1qyqtc5p2xjjrpclpvlyz5fxmd7fr0v27hu6slun8lz
 
 # Deploy contracts to the mainnet of CKB.
 deploy-mainnet:
-	API_URL=http://127.0.0.1:8114 capsule deploy --api $API_URL --env production
+	API_URL=$(MAINNET_RPC_URL) capsule deploy --api $(MAINNET_RPC_URL) --env production --fee 1
