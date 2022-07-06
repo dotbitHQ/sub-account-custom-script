@@ -14,6 +14,9 @@
 // define modules
 #[macro_use]
 mod macros;
+#[macro_use]
+mod util;
+mod constants;
 mod entry;
 mod error;
 mod schemas;

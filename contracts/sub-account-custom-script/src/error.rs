@@ -12,6 +12,10 @@ pub enum Error {
     InvalidArgument,
     InvalidSubAccountData,
     InvalidProfit,
+    CanNotFindWitness,
+    WitnessDecodingError,
+    WitnessHashMismatch,
+    ConfigValueError,
 }
 
 impl From<SysError> for Error {
