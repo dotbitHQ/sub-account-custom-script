@@ -2,7 +2,7 @@
 use core::{convert::TryInto, result::Result, slice::from_raw_parts};
 
 // Import heap related library from `alloc`
-use alloc::{vec};
+use alloc::vec;
 use alloc::vec::Vec;
 
 // Import CKB syscalls and structures
@@ -15,13 +15,8 @@ use molecule::hex_string;
 use crate::{
     constants::*,
     error::Error,
-    schemas::{
-        packed::{
-            SubAccount,
-            PriceConfigList,
-        }
-    },
-    util::*
+    schemas::packed::{PriceConfigList, SubAccount},
+    util::*,
 };
 
 /// This is the entry of the contract.
@@ -91,17 +86,17 @@ pub fn main(argc: usize, argv: *const *const u8) -> Result<(), Error> {
                         debug!("hash of witness.hash: 0x{}", hex_string(&hash));
 
                         das_assert!(
-                            &witness_hash == &hash,
+                            &witness_hash == &hash[0..10],
                             Error::WitnessHashMismatch,
                             "The hash of witness body is not matched.(hash_in_args: 0x{}, hash_calculated: 0x{})",
                             hex_string(&witness_hash),
-                            hex_string(&hash)
+                            hex_string(&hash[0..10])
                         );
 
                         match PriceConfigList::from_slice(body) {
                             Ok(val) => {
                                 config_opt = Some(val);
-                            },
+                            }
                             Err(_) => {
                                 das_assert!(
                                     false,
@@ -146,10 +141,10 @@ pub fn main(argc: usize, argv: *const *const u8) -> Result<(), Error> {
                     }
 
                     ret
-                },
+                }
                 None => {
                     debug!("Can not find the witness of configuration.");
-                    return Err(Error::CanNotFindWitness)
+                    return Err(Error::CanNotFindWitness);
                 }
             };
 
@@ -164,8 +159,13 @@ pub fn main(argc: usize, argv: *const *const u8) -> Result<(), Error> {
                         let account_chars =
                             combine_acocunt_chars(sub_account.account().as_reader());
 
-                        let price_usd =
-                            get_price(action, &configs, &account_chars, account_len, expiration_years);
+                        let price_usd = get_price(
+                            action,
+                            &configs,
+                            &account_chars,
+                            account_len,
+                            expiration_years,
+                        );
                         let price_ckb = usd_to_ckb(price_usd, quote);
 
                         expected_total_profit += price_ckb;
@@ -214,13 +214,11 @@ fn get_price(
 
     if account_len >= max_length as usize {
         unit_price = if action == "create_sub_account" {
-            configs[configs.len()-1].1
+            configs[configs.len() - 1].1
         } else {
-            configs[configs.len()-1].2
+            configs[configs.len() - 1].2
         };
     }
 
     unit_price * expiration_years
 }
-
-

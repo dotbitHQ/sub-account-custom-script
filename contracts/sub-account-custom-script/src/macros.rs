@@ -13,6 +13,16 @@ macro_rules! das_assert {
     };
 }
 
+#[allow(unused_macros)]
+macro_rules! das_log {
+    ($fmt:literal) => {
+        ckb_std::syscalls::debug(alloc::format!($fmt));
+    };
+    ($fmt:literal, $($args:expr),+) => {
+        ckb_std::syscalls::debug(alloc::format!($fmt, $($args), +));
+    };
+}
+
 macro_rules! read_u64_param {
     ($arg_ptr:expr) => {{
         let hex = unsafe { CStr::from_ptr($arg_ptr).to_str().unwrap() };

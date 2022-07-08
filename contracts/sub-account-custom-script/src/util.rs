@@ -1,8 +1,10 @@
+use crate::{
+    constants::*,
+    schemas::packed::*
+};
 use alloc::string::String;
 use blake2b_ref::Blake2bBuilder;
-use crate::schemas::packed::*;
 use molecule::{bytes, prelude::*};
-use crate::constants::{*};
 
 macro_rules! impl_uint_convert {
     ($uint_type:ty, $mol_type:ty, $mol_reader_typer:ident, $length: expr) => {
@@ -63,4 +65,3 @@ pub fn usd_to_ckb(usd: u64, quote: u64) -> u64 {
 
     total
 }
-
