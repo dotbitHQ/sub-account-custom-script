@@ -35,6 +35,23 @@ Type ID:
 ```
 
 
+## Configuration
+
+This script depends on `SubAccountCell.data.script_args` to store a hash of real configuration which means you need to set the script_args 
+in the transaction named `config_sub_account_custom_script action`. And transaction builder who want to create or renew sub-account needs 
+put the configuration in `transaction.witnesses[]`.
+
+The configuration consists of header, version and body：
+
+```
+[header][version][body]
+```
+
+- header, 10 bytes of fixed content `0x7363726970742D303031` which means `script-001`, custom script use the header to find the witness able to be parsed.
+- version, 4 bytes litter-endian u32 number, it indicates the version of the `body` field which allow developer upgrading the structure of the `body` field.
+- body, a [molecule structure](https://github.com/nervosnetwork/molecule) with variable length, the type is `table PriceConfigList` which come from [das-types](https://github.com/dotbitHQ/das-types/blob/master/schemas/cell.mol)；
+
+
 ## Building
 
 First you need to install [capsule](https://github.com/nervosnetwork/capsule) and [Docker](https://www.docker.com/), capsule will use docker 
