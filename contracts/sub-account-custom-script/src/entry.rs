@@ -15,7 +15,7 @@ use molecule::hex_string;
 use crate::{
     constants::*,
     error::Error,
-    schemas::packed::{PriceConfigList, SubAccount},
+    schemas::packed::{PriceConfigList, AccountChars},
     util::*,
 };
 
@@ -153,11 +153,11 @@ pub fn main(argc: usize, argv: *const *const u8) -> Result<(), Error> {
             for i in 5..argc {
                 let (expiration_years, sub_account_bytes) = read_sub_account_param!(args[i]);
 
-                match SubAccount::from_slice(&sub_account_bytes) {
-                    Ok(sub_account) => {
-                        let account_len = sub_account.account().len();
+                match AccountChars::from_slice(&sub_account_bytes) {
+                    Ok(account) => {
+                        let account_len = account.len();
                         let account_chars =
-                            combine_acocunt_chars(sub_account.account().as_reader());
+                            combine_acocunt_chars(account.as_reader());
 
                         let price_usd = get_price(
                             action,
