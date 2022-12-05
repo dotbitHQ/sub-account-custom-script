@@ -47,7 +47,7 @@ pub fn main(argc: usize, argv: *const *const u8) -> Result<(), Error> {
     let action = unsafe { CStr::from_ptr(args[0]).to_str().unwrap() };
 
     match action {
-        "create_sub_account" | "renew_sub_account" => {
+        "update_sub_account" => {
             // The argc will have at least 4 params.
             das_assert!(
                 argc >= 6,
