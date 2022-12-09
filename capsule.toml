@@ -1,5 +1,5 @@
 # capsule version
-version = "0.7.3 939f602"
+version = "0.9.0 81e9876"
 # path of deployment config file
 deployment = "deployment.toml"
 
